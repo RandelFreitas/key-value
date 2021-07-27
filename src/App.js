@@ -19,47 +19,66 @@ const useStyles = makeStyles((theme) => ({
 function App() {
   const classes = useStyles()
   const [descricao, setDescricao] = useState({});
+  const [elements, setElements] = useState({});
+  const [desc, setDesc] = useState([1]);
 
-  //const [key, setKey] = useState('');
-  //const [value, setValue] = useState('');
+  const add = () => {
+    setDesc([...desc, 2]);
+    console.log(desc);
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(e.target);
+    elements[descricao.key] = descricao.value;
+    console.log(elements);
   };
 
   const handleChangeKey = (event) => {
-    console.log(event.target.value);
+    descricao.key = event.target.value;
+    setDescricao(descricao);
   }
 
   const handleChangeValue = (event) => {
-    console.log(event.target.value);
+    descricao.value = event.target.value;
+    setDescricao(descricao);
   }
 
   return (
     <Container>
       <h1>Descrição</h1>
       <form className={classes.root} onSubmit={handleSubmit}>
-        <div key={descricao.id}>
-          <TextField
-            name="firstName"
-            label="Descrição"
-            value={descricao.key}
-            onChange={event => handleChangeKey(event)}
-          />
-          <TextField
-            name="lastName"
-            label="Valor"
-            value={descricao.value}
-            onChange={event => handleChangeValue(event)}
-          />
-        </div>
+        {desc.map((item, index) => (
+          <div key={index}>
+            <TextField
+              name="firstName"
+              label="Descrição"
+              value={descricao.key}
+              onChange={event => handleChangeKey(event)}
+            />
+            <TextField
+              name="lastName"
+              label="Valor"
+              value={descricao.value}
+              onChange={event => handleChangeValue(event)}
+            />
+          </div>
+        ))}
+        <Button
+          className={classes.button}
+          variant="outlined"
+          color="primary"
+          onClick={() => add()}
+        >
+          +
+        </Button>
         <Button
           className={classes.button}
           variant="contained" 
           color="primary" 
           type="submit"
-        >Salvar</Button>
+        >
+          Salvar
+        </Button>
       </form>
     </Container>
   );
